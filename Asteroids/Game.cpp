@@ -132,8 +132,8 @@ void Game::SpawnPlayer()
 
 void Game::DeletePlayer()
 {
-	player_ = 0;
 	delete player_;
+	player_ = 0;
 }
 
 void Game::UpdatePlayer(System *system)
@@ -240,8 +240,8 @@ void Game::SpawnBullet(XMVECTOR position, XMVECTOR direction)
 
 void Game::DeleteBullet()
 {
-	bullet_ = 0;
 	delete bullet_;
+	bullet_ = 0;
 }
 
 void Game::SpawnAsteroids(int numAsteroids)
@@ -260,7 +260,6 @@ void Game::SpawnAsteroids(int numAsteroids)
 void Game::SpawnAsteroidAt(XMVECTOR position, int size)
 {
 	const float MAX_ASTEROID_SPEED = 1.0f;
-
 	float angle = Random::GetFloat(Maths::TWO_PI);
 	XMMATRIX randomRotation = XMMatrixRotationZ(angle);
 	XMVECTOR velocity = XMVectorSet(0.0f, Random::GetFloat(MAX_ASTEROID_SPEED), 0.0f, 0.0f);
@@ -292,7 +291,7 @@ void Game::AsteroidHit(Asteroid *asteroid)
 void Game::DeleteAsteroid(Asteroid *asteroid)
 {
 	asteroids_.remove(asteroid);
-	//delete asteroid
+	delete asteroid;
 }
 
 void Game::UpdateCollisions()

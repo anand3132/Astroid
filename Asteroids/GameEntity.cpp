@@ -58,7 +58,7 @@ bool GameEntity::HasValidCollider() const
 void GameEntity::DestroyCollider()
 {
 	if (HasValidCollider())
-	{
+	{ 
 		collisionSystem_->DestroyCollider(collider_);
 	}
 

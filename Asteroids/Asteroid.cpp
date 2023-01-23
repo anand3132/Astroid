@@ -24,6 +24,10 @@ Asteroid::Asteroid(XMVECTOR position,
 	angularSpeed_ = Random::GetFloat(-MAX_ROTATION, MAX_ROTATION);
 }
 
+Asteroid::~Asteroid()
+{
+	printf("Asteroid Destroyed\n");
+}
 void Asteroid::Update(System *system)
 {
 	XMVECTOR position = GetPosition();

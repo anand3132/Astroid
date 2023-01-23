@@ -9,7 +9,8 @@ public:
 	Asteroid(XMVECTOR position,
 		XMVECTOR velocity,
 		int size);
-
+	~Asteroid();
+	
 	void Update(System *system);
 	void Render(Graphics *graphics) const;
 

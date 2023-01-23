@@ -58,6 +58,7 @@ void Collision::DisableCollider(Collider *collider)
 
 void Collision::DoCollisions(Game *game) const
 {
+	std::list<std::tuple<Collider*, Collider*>> listOfCollidersToCollide;
 	for (ColliderList::const_iterator colliderAIt = colliders_.begin(), end = colliders_.end(); colliderAIt != end;++colliderAIt)
 	{
 		ColliderList::const_iterator colliderBIt = colliderAIt;
@@ -67,9 +68,15 @@ void Collision::DoCollisions(Game *game) const
 			Collider *colliderB = *colliderBIt;
 			if (CollisionTest(colliderA, colliderB))
 			{
-				game->DoCollision(colliderA->entity, colliderB->entity);
+				listOfCollidersToCollide.push_back(std::make_tuple(colliderA, colliderB));
 			}
 		}
+	}
+
+	// DoCollision will invalidate 'colliders_', hence separating it from the collision loop.
+	for(std::tuple<Collider*, Collider*> row : listOfCollidersToCollide)
+	{
+		game->DoCollision(std::get<0>(row)->entity, std::get<1>(row)->entity);
 	}
 }
 
