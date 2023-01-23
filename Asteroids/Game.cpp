@@ -16,13 +16,15 @@ Game::Game() :
 	camera_(0),
 	background_(0),
 	player_(0),
-	collision_(0)
+	collision_(0),
+	bullet_(0)
 {
 	camera_ = new OrthoCamera();
 	camera_->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	camera_->SetFrustum(800.0f, 600.0f, -100.0f, 100.0f);
 	background_ = new Background(800.0f, 600.0f);
 	collision_ = new Collision();
+	bullet_=new Bullet( XMVectorZero(), XMVectorZero() );
 }
 
 Game::~Game()
@@ -130,8 +132,8 @@ void Game::SpawnPlayer()
 
 void Game::DeletePlayer()
 {
-	delete player_;
 	player_ = 0;
+	delete player_;
 }
 
 void Game::UpdatePlayer(System *system)
@@ -238,8 +240,8 @@ void Game::SpawnBullet(XMVECTOR position, XMVECTOR direction)
 
 void Game::DeleteBullet()
 {
-	delete bullet_;
 	bullet_ = 0;
+	delete bullet_;
 }
 
 void Game::SpawnAsteroids(int numAsteroids)
@@ -264,8 +266,7 @@ void Game::SpawnAsteroidAt(XMVECTOR position, int size)
 	XMVECTOR velocity = XMVectorSet(0.0f, Random::GetFloat(MAX_ASTEROID_SPEED), 0.0f, 0.0f);
 	velocity = XMVector3TransformNormal(velocity, randomRotation);
 
-	Asteroid *asteroid = new Asteroid(position, velocity, size);
-	asteroid->EnableCollisions(collision_, size * 5.0f);
+	Asteroid *asteroid = new Asteroid(position, velocity, size);asteroid->EnableCollisions(collision_, size * 5.0f);
 	asteroids_.push_back(asteroid);
 }
 
@@ -291,7 +292,7 @@ void Game::AsteroidHit(Asteroid *asteroid)
 void Game::DeleteAsteroid(Asteroid *asteroid)
 {
 	asteroids_.remove(asteroid);
-	delete asteroid;
+	//delete asteroid
 }
 
 void Game::UpdateCollisions()

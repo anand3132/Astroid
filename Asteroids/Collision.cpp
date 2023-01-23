@@ -58,9 +58,7 @@ void Collision::DisableCollider(Collider *collider)
 
 void Collision::DoCollisions(Game *game) const
 {
-	for (ColliderList::const_iterator colliderAIt = colliders_.begin(), end = colliders_.end();
-		colliderAIt != end;
-		++colliderAIt)
+	for (ColliderList::const_iterator colliderAIt = colliders_.begin(), end = colliders_.end(); colliderAIt != end;++colliderAIt)
 	{
 		ColliderList::const_iterator colliderBIt = colliderAIt;
 		for (++colliderBIt; colliderBIt != end; ++colliderBIt)
