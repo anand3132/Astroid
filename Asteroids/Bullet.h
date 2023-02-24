@@ -11,11 +11,13 @@ public:
 
 	void Update(System *system);
 	void Render(Graphics *graphics) const;
+	inline bool IsExpired() const { return expired_; }
 
 private:
 
 	XMFLOAT3 velocity_;
-
+	unsigned long bulletSpawnTime_;
+	bool expired_;
 };
 
 #endif // BULLET_H_INCLUDED

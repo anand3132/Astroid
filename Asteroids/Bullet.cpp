@@ -2,12 +2,14 @@
 #include "Graphics.h"
 #include "ImmediateMode.h"
 #include "ImmediateModeVertex.h"
+#include <timeapi.h>
 
 Bullet::Bullet(XMVECTOR position,
 	XMVECTOR direction)
 {
 	const float BULLET_SPEED = 4.0f;
-
+	bulletSpawnTime_ = timeGetTime();
+	expired_ = false;
 	SetPosition(position);
 	XMVECTOR normalisedDirection = XMVector3Normalize(direction);
 	XMStoreFloat3(&velocity_, normalisedDirection * BULLET_SPEED);
@@ -18,6 +20,10 @@ void Bullet::Update(System *system)
 	XMVECTOR position = GetPosition();
 	position = XMVectorAdd(position, XMLoadFloat3(&velocity_));
 	SetPosition(position);
+
+	DWORD currentTime = timeGetTime();
+	DWORD timeSinceLastBullet = currentTime - bulletSpawnTime_;
+	expired_ = (timeSinceLastBullet > 3000);	// 3 seconds
 }
 
 void Bullet::Render(Graphics *graphics) const

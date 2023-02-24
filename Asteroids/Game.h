@@ -3,7 +3,6 @@
 
 #include <DirectXMath.h>
 #include <list>
-
 using namespace DirectX;
 
 class OrthoCamera;
@@ -39,6 +38,7 @@ private:
 
 	typedef std::list<Asteroid *> AsteroidList;
 	typedef std::list<Explosion *> ExplosionList;
+	typedef std::list<Bullet*> BulletList;
 
 	void SpawnPlayer();
 	void DeletePlayer();
@@ -46,6 +46,7 @@ private:
 	void UpdatePlayer(System *system);
 	void UpdateAsteroids(System *system);
 	void UpdateBullet(System *system);
+	void RemoveExpiredBullets();
 	void WrapEntity(GameEntity *entity) const;
 
 	void DeleteAllAsteroids();
@@ -53,6 +54,8 @@ private:
 
 	void SpawnBullet(XMVECTOR position, XMVECTOR direction);
 	void DeleteBullet();
+	void DeleteBullet(Bullet* bullet);
+	bool IsEntityOfBulletList(GameEntity* e);
 
 	void SpawnAsteroids(int numAsteroids);
 	void SpawnAsteroidAt(XMVECTOR position, int size);
@@ -66,11 +69,12 @@ private:
 
 	Background *background_;
 	Ship *player_;
-	Bullet *bullet_;
+	//Bullet *bullet_;
 	AsteroidList asteroids_;
 	ExplosionList explosions_;
-
 	Collision *collision_;
+	BulletList bullets_;
+	unsigned long previousBulletSpawnTime_;
 };
 
 #endif // GAME_H_INCLUDED
